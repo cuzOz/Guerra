@@ -5,30 +5,31 @@ const STA_MIN = 0;
 var turnoActual = 'J1';
 var j1hizoSwap = false;
 var j2hizoSwap = false;
-var jugadas = 0;
 
 function Atacar(){
+  let danio = GetRandomEntre(5, 10);
   if (turnoActual == 'J1'){
-    staJ2 -= GetRandomEntre(5, 10);
-    CheckStamina();
-    document.getElementById("sta-j2").innerHTML = staJ2;
+    staJ2 -= danio
+    document.getElementById("sta-J2").innerHTML = staJ2;
   }else{
-    staJ1 -= GetRandomEntre(5, 10);
-    CheckStamina();
-    document.getElementById("sta-j1").innerHTML = staJ1;
+    staJ1 -= danio;
+    document.getElementById("sta-J1").innerHTML = staJ1;
   }
+  commentAction("Atacar", danio);
+  CheckStamina();
   CambiarTurno();
 }
 function Curar(){
+  let danio = GetRandomEntre(1, 15);
   if (turnoActual == 'J1'){
-    staJ1 += GetRandomEntre(1, 15);
-    CheckStamina();
-    document.getElementById("sta-j1").innerHTML = staJ1;
+    staJ1 += danio;
+    document.getElementById("sta-J1").innerHTML = staJ1;
   }else{
-    staJ2 += GetRandomEntre(1, 15);
-    CheckStamina();
-    document.getElementById("sta-j2").innerHTML = staJ2;
+    staJ2 += danio;
+    document.getElementById("sta-J2").innerHTML = staJ2;
   }
+  commentAction("Curar", danio);
+  CheckStamina();
   CambiarTurno();
 }
 function Swap(){
@@ -37,8 +38,8 @@ function Swap(){
 
   staJ1 = sta2;
   staJ2 = sta1;
-  document.getElementById("sta-j1").innerHTML = staJ1;
-  document.getElementById("sta-j2").innerHTML = staJ2;
+  document.getElementById("sta-J1").innerHTML = staJ1;
+  document.getElementById("sta-J2").innerHTML = staJ2;
 
   if (turnoActual == 'J1'){
     j1hizoSwap = true;
@@ -58,7 +59,6 @@ function CambiarTurno(){
     turnoActual = 'J1';
     ActivarComandos();
   }
-  jugadas += 1;
 }
 function ActivarComandos(){
   if (hasSwapped()){
@@ -95,22 +95,19 @@ function GetRandomEntre(min, max) {
   return Math.random() * (max - min) + min;
 }
 function CheckStamina(){
-  if (turnoActual == 'J1'){
-    if (staJ1 > STA_MAX){
-      staJ1 = STA_MAX;
-    }
-    else if (staJ1 < STA_MIN){
-      alert("Jugador 2 gana");
-      Reiniciar();
-    }
-  }else{
-    if (staJ2 > STA_MAX){
-      staJ2 = STA_MAX;
-    }
-    else if (staJ2 < STA_MIN){
-      alert("Jugador 1 gana");
-      Reiniciar();
-    }
+  if (staJ1 > STA_MAX){
+    staJ1 = STA_MAX;
+  }
+  else if (staJ1 < STA_MIN){
+    alert("Jugador 2 gana");
+    Reiniciar();
+  }
+  else if (staJ2 > STA_MAX){
+    staJ2 = STA_MAX;
+  }
+  else if (staJ2 < STA_MIN){
+    alert("Jugador 1 gana");
+    Reiniciar();
   }
 }
 function Reiniciar(){
@@ -118,8 +115,8 @@ function Reiniciar(){
   staJ1 = 100;
   staJ2 = 100;
   jugadas = 0;
-  document.getElementById("sta-j1").innerHTML = staJ1;
-  document.getElementById("sta-j2").innerHTML = staJ2;
+  document.getElementById("sta-J1").innerHTML = staJ1;
+  document.getElementById("sta-J2").innerHTML = staJ2;
 
   document.getElementById('btn-atacar-J2').disabled = true;
   document.getElementById('btn-curar-J2').disabled = true;
@@ -127,4 +124,15 @@ function Reiniciar(){
   document.getElementById('btn-atacar-J1').disabled = false;
   document.getElementById('btn-curar-J1').disabled = false;
   document.getElementById('btn-swap-J1').disabled = false;
+}
+function commentAction(accion, cantDanio){
+  if (accion == "Swap"){
+    document.getElementById('comment-'+turnoActual).innerHTML = accion+ "!";
+  }
+  else if (accion == "Curar"){
+    document.getElementById('comment-'+turnoActual).innerHTML = "Curación! Cantidad: "+ cantDanio;
+  }
+  else if (accion == "Atacar"){
+    document.getElementById('comment-'+turnoActual).innerHTML = "Ataque! Daño: "+ cantDanio;
+  }
 }
