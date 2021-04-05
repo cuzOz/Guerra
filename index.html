@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Guerra!</title>
+    <script type="text/javascript" src="index.js"></script>
+  </head>
+  <body>
+    <div class="reglas">
+      <h2>Reglas</h2>
+      <ul>
+        <li>Gana el jugador que primero deja sin vida al contrincante</li>
+        <li>El boton atacar hace que el jugador golpee con un random de 5 a 10 sobre el otro Jugador</li>
+        <li>El boton curar hace que el jugador se cure con un random de 1 a 15 sobre si mismo</li>
+        <li>No puede tener mas de 100 stamina</li>
+        <li>El boton swap cambia la stamina de un jugador por la del otro</li>
+        <li>El boton swap solo puede ser tocado una vez por partida por jugador</li>
+        <li>Con hacer un swap el jugador no pierde el turno</li>
+        <li>Cuando llega a cero muere</li>
+      </ul>
+    </div>
+    <div class="jugador">
+      <h3>J1: Stamina = <span id="sta-j1">100</span>%</h3>
+      <input type="button" id="btn-atacar-J1" value="Atacar" onclick="Atacar()">
+      <input type="button" id="btn-curar-J1" value="Curar" onclick="Curar()">
+      <input type="button" id="btn-swap-J1" value="Swap" onclick="Swap()">
+    </div>
+    <div class="jugador">
+      <h3>J2: Stamina = <span id="sta-j2">100</span>%</h3>
+      <input type="button" disabled id="btn-atacar-J2" value="Atacar" onclick="Atacar()">
+      <input type="button" disabled id="btn-curar-J2" value="Curar" onclick="Curar()">
+      <input type="button" disabled id="btn-swap-J2" value="Swap" onclick="Swap()">
+    </div>
+  </body>
+</html>
