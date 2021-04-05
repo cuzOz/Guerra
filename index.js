@@ -5,6 +5,7 @@ const STA_MIN = 0;
 var turnoActual = 'J1';
 var j1hizoSwap = false;
 var j2hizoSwap = false;
+var jugadas = 0;
 
 function Atacar(){
   if (turnoActual == 'J1'){
@@ -49,44 +50,46 @@ function Swap(){
 }
 function CambiarTurno(){
   if (turnoActual == 'J1'){
-    DesactivarComandos('J1');
-    ActivarComandos('J2');
+    DesactivarComandos();
     turnoActual = 'J2';
+    ActivarComandos();
   }else{
-    DesactivarComandos('J2');
-    ActivarComandos('J1');
+    DesactivarComandos();
     turnoActual = 'J1';
+    ActivarComandos();
   }
+  jugadas += 1;
 }
-function ActivarComandos(jug){
-  if (!hasSwapped(jug)){
-    document.getElementById('btn-atacar-'+jug).disabled = false;
-    document.getElementById('btn-curar-'+jug).disabled = false;
-    document.getElementById('btn-swap-'+jug).disabled = false;
+function ActivarComandos(){
+  if (hasSwapped()){
+    document.getElementById('btn-atacar-'+turnoActual).disabled = false;
+    document.getElementById('btn-curar-'+turnoActual).disabled = false;
   }else{
-    document.getElementById('btn-atacar-'+jug).disabled = false;
-    document.getElementById('btn-curar-'+jug).disabled = false;
+    document.getElementById('btn-atacar-'+turnoActual).disabled = false;
+    document.getElementById('btn-curar-'+turnoActual).disabled = false;
+    document.getElementById('btn-swap-'+turnoActual).disabled = false;
   }
 }
-function DesactivarComandos(jug){
-  if (!hasSwapped(jug)){
-    document.getElementById('btn-atacar-'+jug).disabled = true;
-    document.getElementById('btn-curar-'+jug).disabled = true;
-    document.getElementById('btn-swap-'+jug).disabled = true;
+function DesactivarComandos(){
+  if (hasSwapped()){
+    document.getElementById('btn-atacar-'+turnoActual).disabled = true;
+    document.getElementById('btn-curar-'+turnoActual).disabled = true;
   }else{
-    document.getElementById('btn-atacar-'+jug).disbaled = true;
-    document.getElementById('btn-curar-'+jug).disabled = true;
+    document.getElementById('btn-atacar-'+turnoActual).disabled = true;
+    document.getElementById('btn-curar-'+turnoActual).disabled = true;
+    document.getElementById('btn-swap-'+turnoActual).disabled = true;
   }
 }
-function hasSwapped(jug){
-  let resul = false;
-  if (jug == 'J1' && j1hizoSwap){
-    resul = true;
+function hasSwapped(){
+  if (turnoActual == 'J1' && j1hizoSwap){
+    return true;
   }
-  else if (jug == 'J2' && j2hizoSwap){
-    resul = true;
+  else if (turnoActual == 'J2' && j2hizoSwap){
+    return true;
   }
-  return resul;
+  else{
+    return false;
+  }
 }
 function GetRandomEntre(min, max) {
   return Math.random() * (max - min) + min;
@@ -114,6 +117,7 @@ function Reiniciar(){
   turnoActual = 'J1';
   staJ1 = 100;
   staJ2 = 100;
+  jugadas = 0;
   document.getElementById("sta-j1").innerHTML = staJ1;
   document.getElementById("sta-j2").innerHTML = staJ2;
 
